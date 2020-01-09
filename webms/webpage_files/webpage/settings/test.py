@@ -21,7 +21,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'webpage_db',
 #         'USER': 'webpage_manager_1',
-#         'PASSWORD': 'supersecurepassword123',
+#         'PASSWORD': 'Sup3rs3cur3Pa55word(changeme)',
 #         'HOST': 'db',
 #         'PORT': 5432
 #     }
