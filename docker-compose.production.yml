@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+
+  db:
+    restart: always
+    volumes:
+        - corporateweb_postgres_data:/var/lib/postgresql/data/
+    labels:
+        - "pgbackup.enable=true"
+    networks:
+        - db_backup_network
+
+  web:
+    restart: always
+    build:
+        context: ./webms/webpage
+        dockerfile: Dockerfile.production
+    expose:
+        - "8000"
+    # ports:
+    #     - "8000:8000"
+    command: gunicorn webpage.wsgi:application --bind 0.0.0.0:8000 --log-file=- --workers 3
+    volumes:
+        - static_volume:/usr/src/app/webpage/static
+        - media_volume:/usr/src/app/webpage/media
+    networks:
+        - volume_backup
+        - nginx_network
+
+  nginx:
+    restart: unless-stopped
+    volumes:
+      - static_volume:/var/www/web/static
+      - media_volume:/var/www/web/media
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - ./logs/:/code/logs
+    depends_on:
+      - web
+    networks:
+      - nginx_network
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+volumes:
+    static_volume:
+    media_volume:
+    corporateweb_postgres_data:
+
+networks:
+    nginx_network:

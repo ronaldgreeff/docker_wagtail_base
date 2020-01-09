@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  db: # postgres:11.5-alpine, EXPOSE 5432
+    build: ./dbms
+    environment:
+        - POSTGRES_USER=${DB_POSTGRES_USER}
+        - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
+        - POSTGRES_DB=${DB_POSTGRES_DB}
+    networks:
+        - db_network
+  web:
+    build: ./webms/webpage
+    depends_on:
+        - db
+    networks:
+        - db_network
+  nginx:
+      build: ./nginxms
+      depends_on:
+        - web
+      ports:
+        - "80:80"
+        - "443:443"
+
+networks:
+  db_network:
+    driver: bridge

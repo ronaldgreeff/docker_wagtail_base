@@ -1,0 +1,10 @@
+-r base.txt
+tools/wagtail-linkchecker-master
+python-decouple==3.3
+redis==3.3.11
+django-redis==4.10.0
+wagtail-cache==0.5.2
+gunicorn==20.0.4
+sendgrid==6.0.4
+django-csp==3.5
+django-axes==5.1.0

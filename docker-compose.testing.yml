@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+
+  db:
+    volumes:
+        - corporateweb_postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build:
+        context: ./webms/webpage
+        dockerfile: Dockerfile.testing
+    volumes:
+        - ./webms/webpage:/srv/app
+    ports:
+        - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+        - production_connection_network
+
+volumes:
+    corporateweb_postgres_data:
+        external: true # only in dev. stores it on host machine
+
+networks:
+    production_connection_network:
+        driver: bridge
