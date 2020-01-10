@@ -20,7 +20,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'webpage_db',
         'USER': 'webpage_manager_1',
-        'PASSWORD': 'Sup3rs3cur3Pa55word(changeme)',
+        'PASSWORD': 'Banana123',
         'HOST': 'db',
         'PORT': 5432
     }

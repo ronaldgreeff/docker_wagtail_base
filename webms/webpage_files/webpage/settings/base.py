@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'wagtail.core',
     'wagtailgmaps',
 
+    'taggit',
     # 'modelcluster',
-    # 'taggit',
 
     # 'captcha',
     # 'wagtailcaptcha',

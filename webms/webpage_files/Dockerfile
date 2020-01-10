@@ -45,7 +45,6 @@ WORKDIR /srv/app
 
 COPY requirements/development.txt requirements.txt
 COPY requirements/base.txt base.txt
-COPY tools /srv/app/tools
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000

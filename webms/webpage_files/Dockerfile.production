@@ -45,7 +45,6 @@ RUN pip install pip==18.1
 
 COPY requirements/production.txt requirements.txt
 COPY requirements/base.txt base.txt
-COPY tools tools
 RUN pip install --no-cache-dir -r requirements.txt
 
 ENV HOME=/usr/src/app
