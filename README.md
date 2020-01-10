@@ -1,22 +1,17 @@
-$ mkvirtualenv {venv}
-(with {venv} $ ....):
+<!-- To run as a shell script -->
+echo What should this virtualenv be called?
+read venv
+mkvirtualenv $venv
 
-cd /example_site/webms/webpage_files/requirements
-pip install -r base.txt
-cd ../../
-mkdir webpage
-cp webpage_files/{Dockerfile,Dockerfile.production,Dockerfile.testing,entrypoint.sh,entrypoint.production.sh,wait-for-it.sh} webpage/
-cp -R webpage_files/requirements/ webpage/
-cd webpage
+mkdir /webms/webpage
+cp /webms/webpage_files/{Dockerfile,Dockerfile.production,Dockerfile.testing,entrypoint.sh,entrypoint.production.sh,wait-for-it.sh} webms/webpage/
+cp -R /webms/webpage_files/requirements/ webms/webpage/
+pip install -r /webms/webpage_files/requirements/base.txt
+cd /webms/webpage
 wagtail start webpage
 rm webpage/Dockerfile webpage/requirements.txt
-cd ..
-cp -a webpage_files/webpage/settings/. webpage/webpage/webpage/settings/
-cp -r webpage_files/webpage/templatetags/ webpage/webpage/webpage/
-cp -r webpage_files/webpage/templatetags/ webpage/webpage/webpage/
-cp webpage_files/webpage/cookielaw.css webpage/webpage/webpage/static/css/
-cp webpage_files/webpage/cookielaw.js webpage/webpage/webpage/static/js/
-cd ..
-docker volume create webpage_postgres_volume
-docker-compose -f docker-compose.yml -f docker-compose.development.yml build
-docker-compose -f docker-compose.yml -f docker-compose.development.yml up
+cd ../../
+cp -a webms/webpage_files/webpage/settings/. webms/webpage/webpage/webpage/settings/
+cp -r webms/webpage_files/webpage/templatetags/ webms/webpage/webpage/webpage/
+cp webms/webpage_files/webpage/cookielaw.css webms/webpage/webpage/webpage/static/css/
+cp webms/webpage_files/webpage/cookielaw.js webms/webpage/webpage/webpage/static/js/
