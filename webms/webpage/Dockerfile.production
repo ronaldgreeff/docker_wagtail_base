@@ -1,0 +1,63 @@
+# Use an official Python runtime as a parent image
+FROM python:3.7-alpine3.7 as builder
+
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV DJANGO_SETTINGS_MODULE='webpage.settings.production' \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apk update \
+     && apk --no-cache add \
+     bash \
+     build-base \
+     curl \
+     gcc \
+     gettext \
+     git \
+     libffi-dev \
+     linux-headers \
+     musl-dev \
+     postgresql-dev \
+     python3-dev \
+     tini \
+     libjpeg \
+     zlib \
+     libpq \
+     && pip install psycopg2
+
+RUN apk --no-cache add jpeg-dev \
+         zlib-dev \
+         freetype-dev \
+         lcms2-dev \
+         openjpeg-dev \
+         tiff-dev \
+         tk-dev \
+         tcl-dev \
+         harfbuzz-dev \
+         fribidi-dev \
+         redis
+
+RUN pip install pip==18.1
+
+# RUN addgroup -S app && adduser -S app -G app
+
+COPY requirements/production.txt requirements.txt
+COPY requirements/base.txt base.txt
+COPY tools tools
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV HOME=/usr/src/app
+ENV APP_HOME=/usr/src/app/webpage
+
+WORKDIR $APP_HOME/static
+WORKDIR $APP_HOME/media
+WORKDIR $APP_HOME
+
+COPY entrypoint.production.sh $APP_HOME
+RUN chmod +x "./entrypoint.production.sh"
+COPY wait-for-it.sh $APP_HOME
+RUN chmod +x "./wait-for-it.sh"
+
+COPY /webpage $APP_HOME
