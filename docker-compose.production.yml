@@ -4,7 +4,7 @@ services:
   db:
     restart: always
     volumes:
-        - corporateweb_postgres_data:/var/lib/postgresql/data/
+        - webpage_postgres_volume:/var/lib/postgresql/data/
     labels:
         - "pgbackup.enable=true"
     networks:
@@ -32,8 +32,8 @@ services:
     volumes:
       - static_volume:/var/www/web/static
       - media_volume:/var/www/web/media
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      # - ./data/certbot/conf:/etc/letsencrypt
+      # - ./data/certbot/www:/var/www/certbot
       - ./logs/:/code/logs
     depends_on:
       - web
@@ -44,7 +44,7 @@ services:
 volumes:
     static_volume:
     media_volume:
-    corporateweb_postgres_data:
+    webpage_postgres_volume:
 
 networks:
     nginx_network:

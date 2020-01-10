@@ -2,7 +2,7 @@ version: '3.7'
 services:
   db:
     volumes:
-        - corporateweb_postgres_data:/var/lib/postgresql/data/
+        - webpage_postgres_volume:/var/lib/postgresql/data/
   web:
     volumes:
         - ./webms/webpage:/srv/app
@@ -13,7 +13,7 @@ services:
         - production_connection_network
 
 volumes:
-    corporateweb_postgres_data:
+    webpage_postgres_volume:
         external: true # only in dev. stores it on host machine
 
 networks:
